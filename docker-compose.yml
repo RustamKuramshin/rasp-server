@@ -1,0 +1,18 @@
+version: '3'
+# Не использовался
+services:
+  zabbix-appliance:
+    image: zabbix/zabbix-appliance:latest
+    restart: always
+    container_name: zabbix-appliance
+    ports:
+      - "18080:80"
+      - "10051:10051"
+    tty: true
+    volumes:
+      - zabbix-data:/var/lib/mysql
+
+volumes:
+  zabbix-data:
+    driver: local
+

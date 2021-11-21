@@ -1,0 +1,44 @@
+---
+# Подготовка dev-host
+- name: Local dev-host
+  hosts: 127.0.0.1
+  connection: local
+  become: no
+  gather_facts: no
+  tasks:
+    - name: Create a zabbix network
+      docker_network:
+        name: zabbix-net
+        driver: bridge
+    - name: Create a zabbix data volume
+      docker_volume:
+        name: zabbix-data
+        state: present
+    - name: Install Zabbix Aplliance
+      docker_container:
+        name: zabbix-appliance
+        image: zabbix/zabbix-appliance:latest
+        published_ports:
+          - 10051:10051
+          - 18080:80
+        networks:
+          - name: zabbix-net
+            aliases:
+              - zabbix-appliance
+        restart_policy: always
+        volumes:
+          - zabbix-data:/var/lib/mysql
+    - name: Install Zabbix Agent
+      docker_container:
+        name: zabbix-agent
+        image: zabbix/zabbix-agent:latest
+        published_ports:
+          - 10050:10050
+        networks:
+          - name: zabbix-net
+            aliases:
+              - zabbix-agent
+        restart_policy: always
+        env:
+          ZBX_HOSTNAME: "dev-host"
+          ZBX_SERVER_HOST: "zabbix-appliance"

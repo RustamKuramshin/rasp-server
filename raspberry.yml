@@ -1,0 +1,28 @@
+---
+# Подготовка raspberry
+- name: Raspberry
+  hosts: servers
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  remote_user: "ubuntu"
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Install python docker
+      ansible.builtin.shell:
+        cmd: "pip3 install docker"
+    - name: Install Zabbix Agent
+      docker_container:
+        name: zabbix-agent
+        image: zabbix/zabbix-agent:latest
+        published_ports:
+          - 10050:10050
+        restart_policy: always
+        env:
+          ZBX_HOSTNAME: "raspberry"
+          ZBX_SERVER_HOST: "192.168.88.253"
+    - name: Allow port
+      ufw:
+        rule: allow
+        port: '10050'
+        proto: tcp
