@@ -9,6 +9,9 @@
     - name: Create a zabbix network
       docker_network:
         name: zabbix-net
+        ipam_config:
+          - subnet: 172.20.0.0/16
+            gateway: 172.20.0.1
         driver: bridge
     - name: Create a zabbix data volume
       docker_volume:
@@ -23,6 +26,7 @@
           - 18080:80
         networks:
           - name: zabbix-net
+            ipv4_address: "172.20.0.3"
             aliases:
               - zabbix-appliance
         restart_policy: always
@@ -36,6 +40,7 @@
           - 10050:10050
         networks:
           - name: zabbix-net
+            ipv4_address: "172.20.0.2"
             aliases:
               - zabbix-agent
         restart_policy: always
