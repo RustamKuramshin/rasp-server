@@ -36,7 +36,7 @@ EOF
 sudo ln -s /etc/nginx/sites-available/$1.${DOMAIN} /etc/nginx/sites-enabled/ && \
 sudo nginx -t && \
 sudo systemctl restart nginx && \
-sudo certbot --nginx -d $1.${DOMAIN} -d www.$1.${DOMAIN}
+sudo certbot run -n --nginx --agree-tos --redirect -d $1.${DOMAIN} -d www.$1.${DOMAIN}
 
 NGINX_TRY_FILES="try_files \$uri \$uri\/ =404;"
 NGINX_COMMENT_TRY_FILES_AND_PROXY_PASS="#try_files \$uri \$uri\/ =404;\n          proxy_pass http:\/\/localhost:$2;"
