@@ -1,0 +1,22 @@
+---
+version: "2.1"
+services:
+  transmission:
+    build:
+      context: ./
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Moscow
+      - USER=zen
+      - PASS=rustam2810
+    volumes:
+      - /media/sgate/share/transmission/config:/config
+      - /media/sgate/share/transmission/downloads:/downloads
+      - /media/sgate/share/transmission/watch:/watch
+    ports:
+      - "8200:9091"
+      - "51413:51413/tcp"
+      - "51413:51413/udp"
+    restart: unless-stopped
