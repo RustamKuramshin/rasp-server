@@ -5,6 +5,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    restart: always
     volumes:
       - ./data/nginx:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
@@ -13,6 +14,7 @@ services:
 
   certbot:
     image: certbot/certbot:arm64v8-latest
+    restart: always
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
