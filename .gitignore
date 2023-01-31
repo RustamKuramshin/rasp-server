@@ -215,3 +215,4 @@ dmypy.json
 cython_debug/
 
 .idea
+/nginx-with-certbot/data/certbot
