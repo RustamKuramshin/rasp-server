@@ -1,0 +1,50 @@
+docker exec -it kafka-docker_kafka_1 /bin/bash
+
+$KAFKA_HOME/bin/kafka-topics.sh --create --topic topic --partitions 4 --zookeeper zookeeper:2181 --replication-factor 1
+$KAFKA_HOME/bin/kafka-topics.sh --describe --topic topic --zookeeper zookeeper:2181
+
+$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topic --from-beginning
+
+$KAFKA_HOME/bin/kafka-console-producer.sh --topic=topic --broker-list=`broker-list.sh`
+
+
+curl --include --no-buffer --header "Connection: Upgrade" --header "Upgrade: websocket" --header "Host: localhost:8080" --header "Origin: http://localhost:8080" --header "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" --header "Sec-WebSocket-Version: 13" http://localhost:8080/api/v1/kafka/logs/stream
+
+{"service":"abc","start_date":"2019-09-18","end_date":"2019-09-18","query":"abc"}
+
+["and",["str","HTTP"],["str","Request"]]
+
+kafka-consumer-perf-test.sh --broker-list 192.168.2.77:32768,192.168.2.77:32769,192.168.2.77:32770,192.168.2.77:32771 --topic Logs --messages 10000
+
+kafka-consumer-perf-test.sh --broker-list staging-kafka-log-1.xstaging.tv:9092,staging-kafka-log-2.xstaging.tv:9092,staging-kafka-log-3.xstaging.tv:9092 --group perf_test --topic logcollector_logs --messages 6000000
+
+docker run -d -p 127.0.0.1:8088:8088 -e KSQL_BOOTSTRAP_SERVERS=192.168.2.77:32768,192.168.2.77:32769,192.168.2.77:32770,192.168.2.77:32771 -e KSQL_LISTENERS=http://0.0.0.0:8088/ -e KSQL_KSQL_SERVICE_ID=ksql_service_2_ confluentinc/cp-ksql-server:5.3.1
+
+
+CREATE STREAM logs (hostname varchar, appname varchar, message varchar) WITH (kafka_topic='logs', value_format='JSON');
+select * from LOGS;
+
+---
+
+create stream logs (timestamp varchar, logid varchar, severity int, facility int, hostname varchar, taskid varchar, appname varchar, message varchar) with (kafka_topic='logcollector_logs', value_format='JSON');
+create stream logs_host_filtering as select * from logs where logs.hostname = 'staging-clickhouse-logibator-1';
+
+create stream logs_from_fluentbeat (timestamp varchar, severity varchar, message varchar) with (kafka_topic='ssl_test', value_format='JSON');
+create stream logs_from_fluentbeat_severity_filtering as select * from logs_from_fluentbeat where logs_from_fluentbeat.severity = 'INFO';
+
+create stream logs_from_fluentbeat_without_json (msg varchar) with (kafka_topic='ssl_test');
+
+create table logs_stat as select hostname, count(*) from logs window tumbling (size 5 minute) group by hostname;
+create table logs_host_filtering_stat as select hostname, count(*) from logs_host_filtering window tumbling (size 5 minute) group by hostname;
+create table logs_host_filtering_speed as select hostname, count(*) from logs_host_filtering window tumbling (size 1 seconds) group by hostname;
+create table logs_host_filtering_speed as select hostname, count(*) from logs_host_filtering window tumbling (size 1 seconds) group by hostname;
+
+create table logs_host_filtering_stat_WS60S as select hostname, concat(cast(count(*) as varchar), ' msg'), concat(cast((WindowEnd() - WindowStart())/1000 as varchar), ' sec'), concat(cast(count(*)*1000/(WindowEnd() - WindowStart()) as varchar), ' msg/sec')   from logs_host_filtering window session (60 seconds) group by hostname;
+
+create table logs_stat_WS60S as select hostname, concat(cast(count(*) as varchar), ' msg'), concat(cast((WindowEnd() - WindowStart())/1000 as varchar), ' sec'), concat(cast(count(*)*1000/(WindowEnd() - WindowStart()) as varchar), ' msg/sec')   from logs window session (60 seconds) group by hostname;
+
+
+lrwxrwxrwx 1 root root   38 Jul 19 12:54 java -> /usr/lib/jvm/zulu-8-amd64/jre/bin/java
+
+JAVA = /usr/lib/jvm/zulu-8-amd64/jre/bin/java
+KSQL_CLASSPATH='/usr/share/java/ksql-server/*'

@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec /usr/bin/ksql-server-start /etc/ksql/ksql-server.properties >> $LOG_DIR/ksql.log 2>&1
