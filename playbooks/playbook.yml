@@ -1,0 +1,37 @@
+- name: Execute commands on all hosts
+  hosts: all
+  tasks:
+    - name: Run neofetch
+      ansible.builtin.command:
+        cmd: neofetch --stdout
+      register: neofetch_output
+    - name: Show neofetch output
+      ansible.builtin.debug:
+        msg: "{{ neofetch_output.stdout }}"
+
+    - name: Ping ya.ru
+      ansible.builtin.command:
+        cmd: ping -c 4 ya.ru
+      register: ping_output
+    - name: Show ping output
+      ansible.builtin.debug:
+        msg: "{{ ping_output.stdout }}"
+
+    - name: Check uptime
+      ansible.builtin.command:
+        cmd: uptime
+      register: uptime_output
+    - name: Show uptime output
+      ansible.builtin.debug:
+        msg: "{{ uptime_output.stdout }}"
+
+    - name: Display CPU temperature using sensors
+      ansible.builtin.command:
+        cmd: sensors
+      register: sensors_output
+      changed_when: False
+      ignore_errors: yes
+    - name: Display sensors output
+      ansible.builtin.debug:
+        msg: "{{ sensors_output.stdout_lines }}"
+      ignore_errors: yes
