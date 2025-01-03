@@ -1,8 +1,3 @@
-# 2025-01-03 03:49:03 by RouterOS 7.14.3
-# software id = TH8Z-JV23
-#
-# model = RBD52G-5HacD2HnD
-# serial number = C6140E5CB0E2
 /interface bridge
 add admin-mac=2C:C8:1B:8F:84:B4 auto-mac=no comment=defconf name=bridge \
     port-cost-mode=short
