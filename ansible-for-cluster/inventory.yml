@@ -6,18 +6,25 @@ all:
   hosts:
     rasp_4_m_b_1:
       ansible_host: 192.168.88.153
+      ansible_python_interpreter: /usr/bin/python3.10
     rasp_4_m_b_2:
       ansible_host: 192.168.88.154
+      ansible_python_interpreter: /usr/bin/python3.10
     rasp_4_m_b_3:
       ansible_host: 192.168.88.150
+      ansible_python_interpreter: /usr/bin/python3.10
 
     rasp_3_m_b:
       ansible_host: 192.168.88.152
+      ansible_python_interpreter: /usr/bin/python3.10
 
     orange_5_2_256_gb:
       ansible_host: 192.168.88.151
+      ansible_python_interpreter: /usr/bin/python3.10
     orange_5_1_512_gb:
       ansible_host: 192.168.88.155
+      ansible_python_interpreter: /usr/bin/python3.10
 
     bananapi:
       ansible_host: 192.168.88.156
+      ansible_python_interpreter: /usr/bin/python3.8
