@@ -1,0 +1,58 @@
+if [ -f $(brew --prefix)/etc/zsh_completion ]; then
+. $(brew --prefix)/etc/zsh_completion
+fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# The next line updates PATH for Yandex Cloud CLI.
+if [ -f '/Users/zen/yandex-cloud/path.bash.inc' ]; then source '/Users/zen/yandex-cloud/path.bash.inc'; fi
+
+# The next line enables shell command completion for yc.
+if [ -f '/Users/zen/yandex-cloud/completion.zsh.inc' ]; then source '/Users/zen/yandex-cloud/completion.zsh.inc'; fi
+
+. $(pack completion --shell zsh)
+
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+
+eval "$(goenv init -)"
+
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
+export PATH="/usr/local/opt/ruby/bin:$PATH"
+
+export LDFLAGS="-L/usr/local/opt/ruby/lib"
+export CPPFLAGS="-I/usr/local/opt/ruby/include"
+[[ "$PATH" == *"$HOME/bin:"* ]] || export PATH="$HOME/bin:$PATH"
+! { which werf | grep -qsE "^/Users/zen/.trdl/"; } && [[ -x "$HOME/bin/trdl" ]] && source $("$HOME/bin/trdl" use werf "1.2" "stable")
+
+alias pfbdd='kubectl -n gidapp-dev port-forward pod/bonus-postgresql-0 45433:5432'
+alias pfbtd='kubectl -n gidapp-test port-forward pod/bonus-postgresql-0 45432:5432'
+
+export PATH="/Users/zen/pgsql/bin:$PATH"
+
+export LIQUIBASE_HOME=$(brew --prefix)/opt/liquibase/libexec
+
+export JAVA_HOME=`/usr/libexec/java_home -v 17`
+
+alias pi='ansible-playbook -i inventory.yml playbook.yml'
+
+function picmd() {
+    ansible all -i inventory.yml -m shell -a "$1"
+}
+
+HISTSIZE=10000
+SAVEHIST=10000
+
+export PATH="/Users/zen/projects/gid/paas/gp:$PATH"
+
+export GO111MODULE=on
+export GOPRIVATE=gitlab.gid.team
+
+
