@@ -7,6 +7,8 @@ sudo certbot certonly --standalone -d pgadmin.kuramshin-dev.ru
 sudo certbot certonly --standalone -d minio.kuramshin-dev.ru
 sudo certbot certonly --standalone -d nakormi-crm.ru
 
+sudo certbot certonly --standalone -d transmission.kuramshin-dev.ru
+
 sudo certbot delete
 
 sudo certbot certificates
