@@ -13,9 +13,9 @@ services:
     volumes:
       - /media/exthdd2tb:/shared:rw
     environment:
-      - USERID=1000 # UID пользователя
-      - GROUPID=1000 # GID пользователя
-      - TZ=Europe/Moscow # Установите ваш часовой пояс
+      - USERID=1000
+      - GROUPID=1000
+      - TZ=Europe/Moscow
     command: >
-      -u "ubuntu;rustam2810" # Задайте пользователя и пароль
+      -u "ubuntu;rustam2810"
       -s "Shared;/shared;yes;no;no;all;none"
