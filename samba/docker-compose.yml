@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  samba:
+    image: dperson/samba
+    container_name: samba-server
+    restart: always
+    ports:
+      - "137:137/udp"
+      - "138:138/udp"
+      - "139:139/tcp"
+      - "445:445/tcp"
+    volumes:
+      - /media/exthdd2tb:/shared:rw
+    environment:
+      - USERID=1000 # UID пользователя
+      - GROUPID=1000 # GID пользователя
+      - TZ=Europe/Moscow # Установите ваш часовой пояс
+    command: >
+      -u "ubuntu;rustam2810" # Задайте пользователя и пароль
+      -s "Shared;/shared;yes;no;no;all;none"
