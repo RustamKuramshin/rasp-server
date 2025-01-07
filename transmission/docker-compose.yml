@@ -12,9 +12,9 @@ services:
       - USER=zen
       - PASS=rustam2810
     volumes:
-      - /media/sgate/share/transmission/config:/config
-      - /media/sgate/share/transmission/downloads:/downloads
-      - /media/sgate/share/transmission/watch:/watch
+      - /media/exthdd2tb/share/transmission/config:/config
+      - /media/exthdd2tb/share/transmission/downloads:/downloads
+      - /media/exthdd2tb/share/transmission/watch:/watch
     ports:
       - "8200:9091"
       - "51413:51413/tcp"
