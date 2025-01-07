@@ -19,4 +19,4 @@ services:
       - "8200:9091"
       - "51413:51413/tcp"
       - "51413:51413/udp"
-    restart: unless-stopped
+    restart: always
