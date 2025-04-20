@@ -216,3 +216,4 @@ cython_debug/
 
 .idea
 /nginx-with-certbot/data/certbot
+/nginx-proxy/certbot/
