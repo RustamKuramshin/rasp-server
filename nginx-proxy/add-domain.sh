@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# ./add-domain.sh grafana.kuramshin-dev.ru http://host.docker.internal:3000
+# ./add-domain.sh grafana.kuramshin-dev.ru http://172.17.0.1:3000
 
 DOMAIN=$1
 PROXY_TARGET=$2
 
 if [[ -z "$DOMAIN" || -z "$PROXY_TARGET" ]]; then
   echo "Usage: ./add-domain.sh <domain> <proxy_target>"
-  echo "Example: ./add-domain.sh grafana.example.com http://host.docker.internal:3000"
+  echo "Example: ./add-domain.sh grafana.example.com http://172.17.0.1:3000"
   exit 1
 fi
 
