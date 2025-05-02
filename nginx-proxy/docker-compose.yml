@@ -12,8 +12,6 @@ services:
       - ./data/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
-    depends_on:
-      - certbot
     restart: always
 
   certbot:
