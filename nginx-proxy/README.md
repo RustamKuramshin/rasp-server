@@ -62,6 +62,32 @@ systemctl status nginx-proxy-certbot-renew.timer
 journalctl -u nginx-proxy-certbot-renew.service -n 100 --no-pager
 ```
 
+## Защита от сканеров
+
+Nginx пишет access/error логи в `data/nginx/logs/`. Эти файлы не попадают в git,
+но доступны fail2ban на хосте.
+
+Установка или обновление fail2ban-конфигурации:
+
+```sh
+cd /home/ubuntu/rasp-server/nginx-proxy
+./install-fail2ban.sh
+```
+
+Jail `nginx-probe` банит IP, которые перебирают типовые уязвимые пути вроде
+`/.env`, `/.git/config`, `/wp-admin`, `/server-status`, `/v2/_catalog`,
+`/SDK/webLanguage`, `PROPFIND`, `LEAKIX` и похожие probes. Бан применяется через
+Docker `DOCKER-USER` chain, поэтому блокирует трафик до nginx-контейнера.
+
+Полезные команды:
+
+```sh
+fail2ban-client status
+fail2ban-client status nginx-probe
+fail2ban-client set nginx-probe unbanip <ip>
+iptables -S DOCKER-USER
+```
+
 По умолчанию `add-domain.sh` использует:
 
 - `CERTBOT_EMAIL=kuramshin.py@yandex.ru`
