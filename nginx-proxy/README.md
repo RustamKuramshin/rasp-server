@@ -84,6 +84,7 @@ Docker `DOCKER-USER` chain, поэтому блокирует трафик до 
 ```sh
 fail2ban-client status
 fail2ban-client status nginx-probe
+./fail2ban-report.sh
 fail2ban-client set nginx-probe unbanip <ip>
 iptables -S DOCKER-USER
 ```
