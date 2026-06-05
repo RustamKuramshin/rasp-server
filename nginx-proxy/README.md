@@ -78,6 +78,8 @@ Jail `nginx-probe` банит IP, которые перебирают типов
 `/.env`, `/.git/config`, `/wp-admin`, `/server-status`, `/v2/_catalog`,
 `/SDK/webLanguage`, `PROPFIND`, `LEAKIX` и похожие probes. Бан применяется через
 Docker `DOCKER-USER` chain, поэтому блокирует трафик до nginx-контейнера.
+Порог: 3 probe-события за 6 часов, бан на 24 часа с увеличением срока при
+повторных банах.
 
 Полезные команды:
 
@@ -85,6 +87,7 @@ Docker `DOCKER-USER` chain, поэтому блокирует трафик до 
 fail2ban-client status
 fail2ban-client status nginx-probe
 ./fail2ban-report.sh
+sudo ./analyze-nginx-probes.py
 fail2ban-client set nginx-probe unbanip <ip>
 iptables -S DOCKER-USER
 ```

@@ -15,6 +15,6 @@ backend = auto
 banaction = docker-user-drop
 port = http,https
 maxretry = 3
-findtime = 10m
+findtime = 6h
 bantime = 24h
 bantime.increment = true
